@@ -11,6 +11,9 @@ Plug 'lifepillar/vim-solarized8'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
+" buffer management plugin
+Plug 'fholgado/minibufexpl.vim'
+Plug 'bling/vim-bufferline'
 " Initialize plugin system
 call plug#end()
 
@@ -44,7 +47,30 @@ set dir=~/.vim/.swp//
 set undodir=~/.vim/.undo//
 set bdir=~/.vim/.backup//
 
+" recent buffer
+" function! GoBackToRecentBuffer()
+"  let startName = bufname('%')
+"   while 1
+"     exe "normal! \<c-o>"
+"     let nowName = bufname('%')
+"     if nowName != startName
+"       break
+"     endif
+"   endwhile
+" endfunction
+" 
+" nnoremap <silent> <C-U> :call GoBackToRecentBuffer()<Enter>
+fun! ChooseBuf()
+    redir => buffers
+        silent ls
+    redir end
 
+    echo l:buffers
+    let l:choice = input('Which one: ')
+    execute ':edit +' . l:choice . 'buf'
+endfun
+command! ChooseBuf call ChooseBuf()
+nnoremap <Leader>b :call ChooseBuf()<CR>
 
 " Airline config
 if !exists('g:airline_symbols')
