@@ -1,6 +1,37 @@
+" ###### General configuration settings
+"
+" set encoding
 set encoding=utf-8
+" swap directory instead of saving swaps in the same directory
+set dir=~/.vim/.swp/
+" set undo directory
+set undodir=~/.vim/.undo/
+" set backup directory
+set bdir=~/.vim/.backup/
+" Font configuration
+set guifont=Anonymous\ Pro:h12
+" set nonumber
+set number
+" enable indent
+filetype plugin indent on
+" show existing tab with 4 spaces width
+set tabstop=4
+" when indenting with '>', use 4 spaces width
+set shiftwidth=4
+" On pressing tab, insert 4 spaces
+set expandtab
+"
+" ###### END General configuration settings
 
-call plug#begin('~/.local/share/nvim/plugged')
+" ####### Plugin configuration
+" Check if vim-plug is set up and setup if not
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+call plug#begin('~/.vim/plugged')
 Plug 'kristijanhusak/vim-hybrid-material'
 Plug 'mhartington/oceanic-next'
 Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
@@ -16,43 +47,53 @@ Plug 'tpope/vim-fugitive'
 Plug 'bling/vim-bufferline'
 " Initialize plugin system
 call plug#end()
+" ####### END Plugin configuration
 
+" ###### Colorscheme setup start
+" current configuration is for deus colorscheme
+" for best results install closest iterm2 colorprofile from https://github.com/mbadolato/iTerm2-Color-Schemes
+" profile name is "Gruvbox Dark"
+set t_Co=256
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set background=dark " Setting dark mode
+colorscheme deus
+let g:deus_termcolors=256
+let g:airline_theme = "deus"
+" ###### END colorscheme setup 
+
+" ###### NERDTree configuration
+" enable NERTREE if running in gui
+if has('gui_running')
+  autocmd vimenter * NERDTree
+endif
+" enable hidden files
+let NERDTreeShowHidden = 1
+" open NERDTree on Tab
+map <Tab> :NERDTreeToggle<CR>
+"
+" ###### END NERDTree configuration 
+
+" ###### Buffer managements configuration
+" show list of all open buffers and switch to selected buffer by ids ID  
+nnoremap <Leader>b :ls<CR>:buffer<Space>
 
 nnoremap <D-]> :bnext<CR>
 nnoremap <D-[> :bprev<CR>
+"
+" ###### END Buffer managements configuration
 
-set number
-autocmd vimenter * NERDTree
-map <C-n> :NERDTreeToggle<CR>
+" ###### Window management
+set mousefocus
+" on Ctrl+Tab  set focus to next window clockwise
+nnoremap <C-]> <C-W>w
+nnoremap <C-[> <C-W>W
+" 
+" ###### END Window management
 
-let NERDTreeShowHidden = 1
-set guioptions=
-filetype plugin indent on
-" show existing tab with 4 spaces width
-set tabstop=4
-" when indenting with '>', use 4 spaces width
-set shiftwidth=4
-" On pressing tab, insert 4 spaces
-set expandtab
+" ###### Airline config
 
-" let g:hybrid_custom_term_colors = 1
-"" set background=dark
-" colorscheme hybrid_material
-
-if has('gui_running')
-else
-endif
-set guifont=Anonymous\ Pro:h12
-colorscheme flattened_dark
-
-set dir=~/.vim/.swp//
-set undodir=~/.vim/.undo//
-set bdir=~/.vim/.backup/
-
-nnoremap <Leader>b :ls<CR>:buffer<Space>
-nnoremap gb :ls<CR>:buffer<Space>
-
-" Airline config
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
@@ -68,10 +109,7 @@ let g:airline_detect_spell=0
 " Airline White Space Handling:
 let g:airline#extensions#whitespace#enabled = 1
 let g:airline_symbols.whitespace = '□□'
-
 let g:airline#extensions#branch#enabled = 1
-
-
 " airline bufferline extension:
 let g:airline_extensions = ['bufferline','branch']
 " let g:airline#extensions#bufferline#enabled =     1
@@ -115,3 +153,7 @@ let g:airline_mode_map = {
 \ 'S' : 'S',
 \ }
 let g:airline_section_x = airline#section#create(['branch'])
+"
+" ###### END Airline config
+
+
