@@ -1,4 +1,4 @@
-" ###### General configuration settings
+" ##### General configuration settings
 "
 " set encoding
 set encoding=utf-8
@@ -24,6 +24,8 @@ set expandtab
 " set ff for fileformat
 " set fenc for fileencoding
 " set ft for filetype
+" disable guioptions, i.e. hide scrollbars
+set guioptions=
 "
 " ###### END General configuration settings
 
@@ -47,8 +49,10 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-fugitive'
 " buffer management plugin
-" Plug 'fholgado/minibufexpl.vim'
+Plug 'fholgado/minibufexpl.vim'
 Plug 'bling/vim-bufferline'
+Plug 'gcmt/taboo.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 " Initialize plugin system
 call plug#end()
 " ####### END Plugin configuration
@@ -57,20 +61,23 @@ call plug#end()
 " current configuration is for deus colorscheme
 " for best results install closest iterm2 colorprofile from https://github.com/mbadolato/iTerm2-Color-Schemes
 " profile name is "Gruvbox Dark"
-set t_Co=256
-set termguicolors
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+if has('gui_running')
+else
+    set t_Co=256
+    set termguicolors
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    let g:deus_termcolors=256
+endif  
 set background=dark " Setting dark mode
 colorscheme deus
-let g:deus_termcolors=256
 let g:airline_theme = "deus"
 " ###### END colorscheme setup 
 
 " ###### NERDTree configuration
 " enable NERTREE if running in gui
 if has('gui_running')
-  autocmd vimenter * NERDTree
+"  autocmd vimenter * NERDTree
 endif
 " enable hidden files
 let NERDTreeShowHidden = 1
@@ -80,19 +87,27 @@ map <Tab> :NERDTreeToggle<CR>
 " ###### END NERDTree configuration 
 
 " ###### Buffer managements configuration
+" for help type :help minibufexplorer.text
 " show list of all open buffers and switch to selected buffer by ids ID  
 nnoremap <Leader>b :ls<CR>:buffer<Space>
-
-nnoremap <D-]> :bnext<CR>
-nnoremap <D-[> :bprev<CR>
+" don't open minibuf explorer window by default
+let g:miniBufExplAutoStart = 0
+" map buffer navigation keys
+nnoremap <D-]> :MBEbf<CR> " next LRU
+nnoremap <D-[> :MBEbb<CR> " prev LRU
+nnoremap <C-]> :MBEbn<CR> " next
+nnoremap <C-[> :MBEbp<CR> " prev
+nnoremap <Leader>d :MBEbd <CR>
 "
 " ###### END Buffer managements configuration
 
 " ###### Window management
 set mousefocus
-" on Ctrl+Tab  set focus to next window clockwise
-nnoremap <C-]> <C-W>w
-nnoremap <C-[> <C-W>W
+" on Ctrl-Tab  set focus to next window clockwise
+nnoremap <C-Tab> <C-W>w
+" on Ctrl-Shift-Tab  set focus to next window against clockwise
+nnoremap <C-S-Tab> <C-W>W
+nnoremap <D-i> :TabooRename<space>
 " 
 " ###### END Window management
 
@@ -101,22 +116,24 @@ nnoremap <C-[> <C-W>W
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
-let g:airline_powerline_fonts = 0
+let g:airline_powerline_fonts = 1
 let g:airline_right_alt_sep = ''
+let g:airline_left_alt_sep = ''
 " unicode symbols
 let g:airline_left_sep = ''
 let g:airline_right_sep = ''
 let g:airline_symbols.linenr = 'Ξ'
+let g:airline_symbols.maxlinenr = ''
 let g:airline_symbols.paste = 'ρ'
 let g:airline_symbols.branch = '⎇'
 let g:airline_detect_spell=0
 " Airline White Space Handling:
 let g:airline#extensions#whitespace#enabled = 1
 let g:airline_symbols.whitespace = '□□'
-let g:airline#extensions#branch#enabled = 1
 " airline bufferline extension:
 let g:airline_extensions = ['bufferline','branch']
-" let g:airline#extensions#bufferline#enabled =     1
+let g:airline#extensions#bufferline#enabled = 0
+let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#bufferline#overwrite_variables = 1
 let g:bufferline_echo = 0
 " Automatically displays all buffers when there's only one tab open.
@@ -135,8 +152,8 @@ let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing']
 let g:airline_section_x =''
 " Tells airline not to display fileencoding or fileformat
 let g:airline_section_y =''
-
-" Airline Short Form Mode Indicators:
+let g:airline_skip_empty_sections = 1
+" " Airline Short Form Mode Indicators:
 " Paste the following into your vimrc for shortform text
 " N instead of NORMAL, I instead of INSERT
 
@@ -152,7 +169,7 @@ let g:airline_mode_map = {
 \ 's' : 'S',
 \ 'S' : 'S',
 \ }
-" let g:airline_section_x = airline#section#create(['branch'])
+ let g:airline_section_x = airline#section#create(['branch'])
 "
 " ###### END Airline config
 
