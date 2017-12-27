@@ -20,6 +20,10 @@ set tabstop=4
 set shiftwidth=4
 " On pressing tab, insert 4 spaces
 set expandtab
+" If need to know these then simply do:
+" set ff for fileformat
+" set fenc for fileencoding
+" set ft for filetype
 "
 " ###### END General configuration settings
 
@@ -131,10 +135,6 @@ let g:airline#extensions#whitespace#checks = [ 'indent', 'trailing']
 let g:airline_section_x =''
 " Tells airline not to display fileencoding or fileformat
 let g:airline_section_y =''
-" If need to know these then simply do:
-" set ff for fileformat
-" set fenc for fileencoding
-" set ft for filetype
 
 " Airline Short Form Mode Indicators:
 " Paste the following into your vimrc for shortform text
@@ -152,7 +152,7 @@ let g:airline_mode_map = {
 \ 's' : 'S',
 \ 'S' : 'S',
 \ }
-let g:airline_section_x = airline#section#create(['branch'])
+" let g:airline_section_x = airline#section#create(['branch'])
 "
 " ###### END Airline config
 
