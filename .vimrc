@@ -26,6 +26,9 @@ set expandtab
 " set ft for filetype
 " disable guioptions, i.e. hide scrollbars
 set guioptions=
+" autosave when :make is executed
+set autowrite
+set visualbell
 "
 " ###### END General configuration settings
 
@@ -53,6 +56,7 @@ Plug 'fholgado/minibufexpl.vim'
 Plug 'bling/vim-bufferline'
 Plug 'gcmt/taboo.vim'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'fatih/vim-go'
 " Initialize plugin system
 call plug#end()
 " ####### END Plugin configuration
@@ -93,10 +97,10 @@ nnoremap <Leader>b :ls<CR>:buffer<Space>
 " don't open minibuf explorer window by default
 let g:miniBufExplAutoStart = 0
 " map buffer navigation keys
-nnoremap <D-]> :MBEbf<CR> " next LRU
-nnoremap <D-[> :MBEbb<CR> " prev LRU
-nnoremap <C-]> :MBEbn<CR> " next
-nnoremap <C-[> :MBEbp<CR> " prev
+nnoremap <D-j> :MBEbf<CR> " next LRU
+nnoremap <D-k> :MBEbb<CR> " prev LRU
+nnoremap <D-]> :MBEbn<CR> " next
+nnoremap <D-k> :MBEbp<CR> " prev
 nnoremap <Leader>d :MBEbd <CR>
 "
 " ###### END Buffer managements configuration
@@ -169,7 +173,6 @@ let g:airline_mode_map = {
 \ 's' : 'S',
 \ 'S' : 'S',
 \ }
- let g:airline_section_x = airline#section#create(['branch'])
 "
 " ###### END Airline config
 
