@@ -176,4 +176,36 @@ let g:airline_mode_map = {
 "
 " ###### END Airline config
 
-
+" ###### GO conf
+let g:go_fmt_command = "goimports"
+" let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+let g:go_metalinter_deadline = "5s"
+" GoDef:
+" place cursor on symbol and:
+" - type gd, :GoDef or Ctrl-]
+" - to go back :GoDefPop or Ctrl-t
+" show function declarations in current file
+nnoremap <D-r> :GoDecls<CR> 
+" show function declarations in the current directory
+nnoremap <D-R> :GoDeclsDir<CR> 
+let g:go_def_mode = 'godef'
+let g:go_decls_includes = "func,type"
+" enable autotype information in cmdline:
+let g:go_auto_type_info = 1
+set updatetime=800
+autocmd FileType go nmap <Leader>i <Plug>(go-info)
+" Highlight the same identifiers
+let g:go_auto_sameids = 1
+" remap CtrlP to Cmd-P
+let g:ctrlp_map = '<D-p>'
+let g:ctrlp_cmd = 'CtrlP'
+" ###### END GO conf
