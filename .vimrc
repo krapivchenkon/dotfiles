@@ -57,6 +57,13 @@ Plug 'bling/vim-bufferline'
 Plug 'gcmt/taboo.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'fatih/vim-go'
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 " Initialize plugin system
 call plug#end()
 " ####### END Plugin configuration
@@ -208,4 +215,9 @@ let g:go_auto_sameids = 1
 " remap CtrlP to Cmd-P
 let g:ctrlp_map = '<D-p>'
 let g:ctrlp_cmd = 'CtrlP'
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+" navigate autocompletion menu using Ctrl-n or Ctrl-j keys
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 " ###### END GO conf
