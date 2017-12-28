@@ -63,6 +63,7 @@ else
   Plug 'Shougo/deoplete.nvim'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
+  Plug 'ddrscott/vim-side-search'
 endif
 " Initialize plugin system
 call plug#end()
@@ -107,7 +108,7 @@ let g:miniBufExplAutoStart = 0
 nnoremap <D-j> :MBEbf<CR> " next LRU
 nnoremap <D-k> :MBEbb<CR> " prev LRU
 nnoremap <D-]> :MBEbn<CR> " next
-nnoremap <D-k> :MBEbp<CR> " prev
+nnoremap <D-[> :MBEbp<CR> " prev
 nnoremap <Leader>d :MBEbd <CR>
 "
 " ###### END Buffer managements configuration
@@ -221,3 +222,21 @@ let g:deoplete#enable_at_startup = 1
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 " ###### END GO conf
+" ###### SideSearch config
+" How should we execute the search?
+" --heading and --stats are required!
+let g:side_search_prg = 'ag --word-regexp'
+  \. " --ignore='vendor/*'"
+  \. " --heading --stats -B 1 -A 2"
+
+" Can use `vnew` or `new`
+let g:side_search_splitter = 'vnew'
+
+" I like 30% splits, change it if you don't
+let g:side_search_split_pct = 0.3
+" Create an shorter `SS` command
+command! -complete=file -nargs=+ SS execute 'SideSearch <args>'
+command! -complete=file  Todo execute 'SideSearch "TODO|todo|tood|Todo|TOOD"'
+" or command abbreviation
+cabbrev SS SideSearch
+" ###### END SideSearch config
