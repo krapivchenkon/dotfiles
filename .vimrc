@@ -47,6 +47,7 @@ Plug 'arcticicestudio/nord-vim', { 'branch': 'develop' }
 Plug 'ajmwagar/vim-dues'
 Plug 'YorickPeterse/happy_hacking.vim'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'lifepillar/vim-solarized8'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -93,6 +94,11 @@ if has('gui_running')
 endif
 " enable hidden files
 let NERDTreeShowHidden = 1
+" Automatically delete the buffer of the file you just deleted with NerdTree
+let NERDTreeAutoDeleteBuffer = 1
+" Make it prettier
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
 " open NERDTree on Tab
 map <Tab> :NERDTreeToggle<CR>
 nnoremap <silent> <Leader>s :NERDTreeFind<CR>
