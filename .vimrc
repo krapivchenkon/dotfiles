@@ -19,7 +19,7 @@ set tabstop=4
 " when indenting with '>', use 4 spaces width
 set shiftwidth=4
 " On pressing tab, insert 4 spaces
-set expandtab
+" set expandtab
 " If need to know these then simply do:
 " set ff for fileformat
 " set fenc for fileencoding
@@ -95,6 +95,7 @@ endif
 let NERDTreeShowHidden = 1
 " open NERDTree on Tab
 map <Tab> :NERDTreeToggle<CR>
+nnoremap <silent> <Leader>s :NERDTreeFind<CR>
 "
 " ###### END NERDTree configuration 
 
@@ -205,6 +206,8 @@ let g:go_metalinter_deadline = "5s"
 nnoremap <D-r> :GoDecls<CR> 
 " show function declarations in the current directory
 nnoremap <D-R> :GoDeclsDir<CR> 
+" build and run current file
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
 let g:go_def_mode = 'godef'
 let g:go_decls_includes = "func,type"
 " enable autotype information in cmdline:
@@ -240,3 +243,13 @@ command! -complete=file  Todo execute 'SideSearch "TODO|todo|tood|Todo|TOOD"'
 " or command abbreviation
 cabbrev SS SideSearch
 " ###### END SideSearch config
+"
+" ###### Text editing configuration
+" Moving current or selected lines up or down
+nnoremap <S-down> :m .+1<CR>== 
+nnoremap <S-up> :m .-2<CR>==
+inoremap <S-down> <Esc>:m .+1<CR>==gi
+inoremap <S-up> <Esc>:m .-2<CR>==gi
+vnoremap <S-down> :m '>+1<CR>gv=gv
+vnoremap <S-up> :m '<-2<CR>gv=gv
+" ###### END Text editing configuration
