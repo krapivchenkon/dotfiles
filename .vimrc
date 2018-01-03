@@ -66,6 +66,7 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
   Plug 'ddrscott/vim-side-search'
 endif
+Plug 'tpope/vim-commentary'
 " Initialize plugin system
 call plug#end()
 " ####### END Plugin configuration
@@ -258,4 +259,12 @@ inoremap <S-down> <Esc>:m .+1<CR>==gi
 inoremap <S-up> <Esc>:m .-2<CR>==gi
 vnoremap <S-down> :m '>+1<CR>gv=gv
 vnoremap <S-up> :m '<-2<CR>gv=gv
+" Comment/uncomment
+" Current plugin works with motions, i.e. gcap will comment paragraph
+" gcc - to comment a line
+" gc to comment in visual mode
+nnoremap <D-/> :Commentary<CR>==
+inoremap <D-/> <Esc>:Commentary<CR>==gi
+vnoremap <D-/> :Commentary<CR>gv==gv
 " ###### END Text editing configuration
+
