@@ -67,6 +67,7 @@ else
   Plug 'ddrscott/vim-side-search'
 endif
 Plug 'tpope/vim-commentary'
+Plug 'JamshedVesuna/vim-markdown-preview'
 " Initialize plugin system
 call plug#end()
 " ####### END Plugin configuration
@@ -266,5 +267,8 @@ vnoremap <S-up> :m '<-2<CR>gv=gv
 nnoremap <D-/> :Commentary<CR>==
 inoremap <D-/> <Esc>:Commentary<CR>==gi
 vnoremap <D-/> :Commentary<CR>gv==gv
+" Markdown preview plugin
+let vim_markdown_preview_github=1
+let vim_markdown_preview_hotkey='<D-S-M>'
 " ###### END Text editing configuration
 
