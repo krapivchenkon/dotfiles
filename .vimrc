@@ -2,6 +2,8 @@
 "
 " set encoding
 set encoding=utf-8
+" disable syntas after columns
+set synmaxcol=120
 " swap directory instead of saving swaps in the same directory
 set dir=~/.vim/.swp/
 " set undo directory
@@ -12,6 +14,10 @@ set bdir=~/.vim/.backup/
 set guifont=Anonymous\ Pro:h12
 " set nonumber
 set number
+" set clipboard to default registry
+set clipboard=unnamed
+" make delete key work in terminal
+set backspace=indent,eol,start
 " enable indent
 filetype plugin indent on
 " show existing tab with 4 spaces width
@@ -19,16 +25,46 @@ set tabstop=4
 " when indenting with '>', use 4 spaces width
 set shiftwidth=4
 " On pressing tab, insert 4 spaces
-" set expandtab
+set expandtab
 " If need to know these then simply do:
 " set ff for fileformat
 " set fenc for fileencoding
 " set ft for filetype
 " disable guioptions, i.e. hide scrollbars
 set guioptions=
+" disable complete=preview mainly for YouCompleteMe plugin
+set completeopt=menuone
 " autosave when :make is executed
 set autowrite
 set visualbell
+set cursorline          " highlight current line
+set wildmenu            " visual autocomplete for command menu
+set lazyredraw          " redraw only when we need to.
+set showmatch           " highlight matching [{()}]
+set incsearch           " search as characters are entered
+set hlsearch            " highlight matches
+set listchars=eol:⏎,tab:␉·,trail:␠,nbsp:⎵
+" to toggle display:
+" set invlist
+" to search tabs /\t which will highlight all the tabs
+" turn off search highlight
+nnoremap <leader><space> :nohlsearch<CR>
+" Folding
+" zf{motion}. fold
+" in V mode type zf to fold selection
+" zr, zR to open one level of folds or all of them
+" zm, zM to close one level of folds or all of them
+set foldenable          " enable folding
+set foldlevelstart=10   " open most folds by default
+" set foldnestmax=10      " 10 nested fold max
+" set foldmethod=indent   " fold based on indent level
+" space open/closes folds
+nnoremap <space> zA
+" folding method will be choosed based on file format
+set foldmethod=syntax
+
+" set path to bash environment aliases
+let $BASH_ENV = "~/.bash_aliases"
 "
 " ###### END General configuration settings
 
@@ -61,16 +97,24 @@ Plug 'fatih/vim-go'
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-  Plug 'ddrscott/vim-side-search'
+ Plug 'Shougo/deoplete.nvim'
+ Plug 'roxma/nvim-yarp'
+ Plug 'roxma/vim-hug-neovim-rpc'
+ Plug 'ddrscott/vim-side-search'
 endif
+" instead of deoplete YouCompleteMe plugin
+Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-commentary'
 Plug 'JamshedVesuna/vim-markdown-preview'
+Plug 'digitalrounin/vim-yaml-folds'
+Plug 'vim-syntastic/syntastic'
+" js plugin
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
 " Initialize plugin system
 call plug#end()
 " ####### END Plugin configuration
+set pyxversion=0
 
 " ###### Colorscheme setup start
 " current configuration is for deus colorscheme
@@ -114,8 +158,8 @@ nnoremap <Leader>b :ls<CR>:buffer<Space>
 " don't open minibuf explorer window by default
 let g:miniBufExplAutoStart = 0
 " map buffer navigation keys
-nnoremap <D-j> :MBEbf<CR> " next LRU
-nnoremap <D-k> :MBEbb<CR> " prev LRU
+nnoremap <D-j> :MBEbf<CR>  " next LRU
+nnoremap <D-k> :MBEbb<CR>  " prev LRU
 nnoremap <D-]> :MBEbn<CR> " next
 nnoremap <D-[> :MBEbp<CR> " prev
 nnoremap <Leader>d :MBEbd <CR>
@@ -124,6 +168,7 @@ nnoremap <Leader>d :MBEbd <CR>
 
 " ###### Window management
 set mousefocus
+set mouse=a
 " on Ctrl-Tab  set focus to next window clockwise
 nnoremap <C-Tab> <C-W>w
 " on Ctrl-Shift-Tab  set focus to next window against clockwise
@@ -196,9 +241,9 @@ let g:airline_mode_map = {
 " ###### GO conf
 let g:go_fmt_command = "goimports"
 " let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
+let g:go_highlight_fields = 0
+let g:go_highlight_functions = 0
+let g:go_highlight_methods = 0
 let g:go_highlight_extra_types = 1
 let g:go_highlight_build_constraints = 1
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
@@ -210,10 +255,12 @@ let g:go_metalinter_deadline = "5s"
 " place cursor on symbol and:
 " - type gd, :GoDef or Ctrl-]
 " - to go back :GoDefPop or Ctrl-t
+autocmd FileType go noremap <C-]> :GoDef<CR> 
+autocmd FileType go noremap <C-o> :GoDefPop<CR> 
 " show function declarations in current file
-nnoremap <D-r> :GoDecls<CR> 
+autocmd FileType go noremap <D-r> :GoDecls<CR> 
 " show function declarations in the current directory
-nnoremap <D-R> :GoDeclsDir<CR> 
+autocmd FileType go noremap <D-R> :GoDeclsDir<CR> 
 " build and run current file
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 let g:go_def_mode = 'godef'
@@ -228,11 +275,17 @@ let g:go_auto_sameids = 1
 let g:ctrlp_map = '<D-p>'
 let g:ctrlp_cmd = 'CtrlP'
 " Use deoplete.
-let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_at_startup = 1
 " navigate autocompletion menu using Ctrl-n or Ctrl-j keys
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+inoremap <expr> <D-j> pumvisible() ? "\<C-n>" : "\<D-j>"
+inoremap <expr> <D-k> pumvisible() ? "\<C-p>" : "\<D-k>"
 " ###### END GO conf
+autocmd FileType javascript noremap <C-]> :YcmCompleter GoTo<CR> 
+" Ctrl-o is already a part of YCM completer
+" autocmd FileType js noremap <C-o> :GoDefPop<CR> 
+" ###### JS conf
+"
+" ###### END JS conf
 " ###### SideSearch config
 " How should we execute the search?
 " --heading and --stats are required!
@@ -269,6 +322,23 @@ inoremap <D-/> <Esc>:Commentary<CR>==gi
 vnoremap <D-/> :Commentary<CR>gv==gv
 " Markdown preview plugin
 let vim_markdown_preview_github=1
-let vim_markdown_preview_hotkey='<D-S-M>'
+" let vim_markdown_preview_hotkey='<D-S-M>'
+let vim_markdown_preview_hotkey='<C-m>'
+let vim_markdown_preview_toggle=2
+let vim_markdown_preview_browser='Safari'
+" if preview didn't toggle, try run :call Vim_Markdown_Preview_Local()
+" YAML filetype run YamlFolds on bufenter
+" 
+" ###### Syntastic config
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exe = 'npm run lint --'
+" ###### END Syntastic config
 " ###### END Text editing configuration
 
