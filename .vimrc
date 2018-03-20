@@ -158,10 +158,19 @@ nnoremap <Leader>b :ls<CR>:buffer<Space>
 " don't open minibuf explorer window by default
 let g:miniBufExplAutoStart = 0
 " map buffer navigation keys
-nnoremap <D-j> :MBEbf<CR>  " next LRU
-nnoremap <D-k> :MBEbb<CR>  " prev LRU
-nnoremap <D-]> :MBEbn<CR> " next
-nnoremap <D-[> :MBEbp<CR> " prev
+
+if has("gui_macvim")
+    nnoremap <D-j> :MBEbf<CR>  " next LRU
+    nnoremap <D-k> :MBEbb<CR>  " prev LRU
+    nnoremap <D-J> :MBEbn<CR> " next
+    nnoremap <D-K> :MBEbp<CR> " prev
+else
+    nnoremap <C-j> :MBEbf<CR>  " next LRU
+    nnoremap <C-k> :MBEbb<CR>  " prev LRU
+    nnoremap <C-J> :MBEbn<CR> " next
+    nnoremap <C-K> :MBEbp<CR> " prev
+endif
+
 nnoremap <Leader>d :MBEbd <CR>
 "
 " ###### END Buffer managements configuration
@@ -257,10 +266,17 @@ let g:go_metalinter_deadline = "5s"
 " - to go back :GoDefPop or Ctrl-t
 autocmd FileType go noremap <C-]> :GoDef<CR> 
 autocmd FileType go noremap <C-o> :GoDefPop<CR> 
-" show function declarations in current file
-autocmd FileType go noremap <D-r> :GoDecls<CR> 
-" show function declarations in the current directory
-autocmd FileType go noremap <D-R> :GoDeclsDir<CR> 
+if has("gui_macvim")
+    " show function declarations in current file
+    autocmd FileType go noremap <D-r> :GoDecls<CR> 
+    " show function declarations in the current directory
+    autocmd FileType go noremap <D-R> :GoDeclsDir<CR> 
+else 
+    " show function declarations in current file
+    autocmd FileType go noremap <C-r> :GoDecls<CR> 
+    " show function declarations in the current directory
+    autocmd FileType go noremap <C-R> :GoDeclsDir<CR> 
+endif
 " build and run current file
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 let g:go_def_mode = 'godef'
@@ -276,9 +292,15 @@ let g:ctrlp_map = '<D-p>'
 let g:ctrlp_cmd = 'CtrlP'
 " Use deoplete.
 " let g:deoplete#enable_at_startup = 1
-" navigate autocompletion menu using Ctrl-n or Ctrl-j keys
-inoremap <expr> <D-j> pumvisible() ? "\<C-n>" : "\<D-j>"
-inoremap <expr> <D-k> pumvisible() ? "\<C-p>" : "\<D-k>"
+if has("gui_macvim")
+    " navigate autocompletion menu using Ctrl-n or Ctrl-j keys
+    inoremap <expr> <D-j> pumvisible() ? "\<C-n>" : "\<D-j>"
+    inoremap <expr> <D-k> pumvisible() ? "\<C-p>" : "\<D-k>"
+else
+    " navigate autocompletion menu using Ctrl-n or Ctrl-j keys
+    inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<C-j>"
+    inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
+endif
 " ###### END GO conf
 autocmd FileType javascript noremap <C-]> :YcmCompleter GoTo<CR> 
 " Ctrl-o is already a part of YCM completer
@@ -317,13 +339,19 @@ vnoremap <S-up> :m '<-2<CR>gv=gv
 " Current plugin works with motions, i.e. gcap will comment paragraph
 " gcc - to comment a line
 " gc to comment in visual mode
-nnoremap <D-/> :Commentary<CR>==
-inoremap <D-/> <Esc>:Commentary<CR>==gi
-vnoremap <D-/> :Commentary<CR>gv==gv
+if has("gui_macvim")
+    nnoremap <D-/> :Commentary<CR>==
+    inoremap <D-/> <Esc>:Commentary<CR>==gi
+    vnoremap <D-/> :Commentary<CR>gv==gv
+else
+    " ? == Shift-/
+    nnoremap <C-?> :Commentary<CR>==
+    inoremap <C-?> <Esc>:Commentary<CR>==gi
+    vnoremap <C-?> :Commentary<CR>gv==gv
+endif
 " Markdown preview plugin
 let vim_markdown_preview_github=1
-" let vim_markdown_preview_hotkey='<D-S-M>'
-let vim_markdown_preview_hotkey='<C-m>'
+" let vim_markdown_preview_hotkey='<D-S-M>' let vim_markdown_preview_hotkey='<C-m>'
 let vim_markdown_preview_toggle=2
 let vim_markdown_preview_browser='Safari'
 " if preview didn't toggle, try run :call Vim_Markdown_Preview_Local()
