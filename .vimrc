@@ -34,7 +34,7 @@ set expandtab
 set guioptions=
 " disable complete=preview mainly for YouCompleteMe plugin
 set completeopt=menuone
-" autosave when :make is executed
+" autosave when :w is executed
 set autowrite
 set visualbell
 set cursorline          " highlight current line
@@ -344,9 +344,11 @@ if has("gui_macvim")
     inoremap <D-/> <Esc>:Commentary<CR>==gi
     vnoremap <D-/> :Commentary<CR>gv==gv
 else
-    " ? == Shift-/
+    " C-? == Ctrl-Shift-/
     nnoremap <C-?> :Commentary<CR>==
-    inoremap <C-?> <Esc>:Commentary<CR>==gi
+    " Commented as it will make <Del> button in insert mode to comment the
+    " line
+    " inoremap <C-?> <Esc>:Commentary<CR>==gi
     vnoremap <C-?> :Commentary<CR>gv==gv
 endif
 " Markdown preview plugin
