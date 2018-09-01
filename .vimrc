@@ -11,7 +11,7 @@ set undodir=~/.vim/.undo/
 " set backup directory
 set bdir=~/.vim/.backup/
 " Font configuration
-set guifont=Anonymous\ Pro:h12
+set guifont=Anonymous\ Pro:h14
 " set nonumber
 set number
 " set clipboard to default registry
@@ -111,6 +111,11 @@ Plug 'vim-syntastic/syntastic'
 " js plugin
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+" VimNotes pluggin
+Plug 'xolox/vim-notes'
+Plug 'xolox/vim-misc'
+" typescript syntax files
+Plug 'leafgarland/typescript-vim'
 " Initialize plugin system
 call plug#end()
 " ####### END Plugin configuration
@@ -351,10 +356,18 @@ else
     " inoremap <C-?> <Esc>:Commentary<CR>==gi
     vnoremap <C-?> :Commentary<CR>gv==gv
 endif
+" text modification
+" ### Concatenate lines:
+" Shift+J in normal mode and then 'x' to concatenate line and remove extra
+" symbols
+" map Ctrl+H to move left and delete the char in insert mode
+imap ^H <Left><Del>         
+
 " Markdown preview plugin
 let vim_markdown_preview_github=1
 " let vim_markdown_preview_hotkey='<D-S-M>' let vim_markdown_preview_hotkey='<C-m>'
-let vim_markdown_preview_toggle=2
+let vim_markdown_preview_hotkey='<C-m>'
+let vim_markdown_preview_toggle=0
 let vim_markdown_preview_browser='Safari'
 " if preview didn't toggle, try run :call Vim_Markdown_Preview_Local()
 " YAML filetype run YamlFolds on bufenter
@@ -370,5 +383,9 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exe = 'npm run lint --'
 " ###### END Syntastic config
+" ###### Vim Notes config
+let g:notes_directories = ['~/Documents/Notes',]
+let g:notes_suffix = '.txt'
+" ###### END Vim Notes config
 " ###### END Text editing configuration
 
