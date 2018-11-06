@@ -107,10 +107,13 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-commentary'
 Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'digitalrounin/vim-yaml-folds'
-Plug 'vim-syntastic/syntastic'
+" disabled for performance in js files Plug 'vim-syntastic/syntastic'
 " js plugin
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+" tern server is started when you first open javascript file .js
+Plug 'ternjs/tern_for_vim' " don't forget to run: cd ~/.vim/plugged/tern_for_vim/ && npm install
+
 " VimNotes pluggin
 Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc'
@@ -387,5 +390,8 @@ let g:syntastic_javascript_eslint_exe = 'npm run lint --'
 let g:notes_directories = ['~/Documents/Notes',]
 let g:notes_suffix = '.txt'
 " ###### END Vim Notes config
+
+" enable tern pluggin
+call tern#Enable()
 " ###### END Text editing configuration
 
