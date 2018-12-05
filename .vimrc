@@ -1,6 +1,4 @@
-" ##### General configuration settings
-"
-" set encoding
+" ##### General configuration settings " " set encoding
 set encoding=utf-8
 " disable syntas after columns
 set synmaxcol=120
@@ -11,7 +9,8 @@ set undodir=~/.vim/.undo/
 " set backup directory
 set bdir=~/.vim/.backup/
 " Font configuration
-set guifont=Anonymous\ Pro:h14
+set guifont=Source\ Code\ Pro\ Light:h14
+" set guifont=Anonymous\ Pro:h14
 " set nonumber
 set number
 " set clipboard to default registry
@@ -93,7 +92,7 @@ Plug 'fholgado/minibufexpl.vim'
 Plug 'bling/vim-bufferline'
 Plug 'gcmt/taboo.vim'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'fatih/vim-go'
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -111,9 +110,6 @@ Plug 'digitalrounin/vim-yaml-folds'
 " js plugin
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-" tern server is started when you first open javascript file .js
-Plug 'ternjs/tern_for_vim' " don't forget to run: cd ~/.vim/plugged/tern_for_vim/ && npm install
-
 " VimNotes pluggin
 Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc'
@@ -256,7 +252,7 @@ let g:airline_mode_map = {
 " ###### END Airline config
 
 " ###### GO conf
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = "gofmt"
 " let g:go_highlight_types = 1
 let g:go_highlight_fields = 0
 let g:go_highlight_functions = 0
@@ -264,10 +260,10 @@ let g:go_highlight_methods = 0
 let g:go_highlight_extra_types = 1
 let g:go_highlight_build_constraints = 1
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
-let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
+let g:go_metalinter_enabled = ['golint', 'errcheck']
+let g:go_fmt_fail_silently = 1
 let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint']
-let g:go_metalinter_deadline = "5s"
+let g:go_metalinter_deadline = "2s"
 " GoDef:
 " place cursor on symbol and:
 " - type gd, :GoDef or Ctrl-]
@@ -390,8 +386,6 @@ let g:syntastic_javascript_eslint_exe = 'npm run lint --'
 let g:notes_directories = ['~/Documents/Notes',]
 let g:notes_suffix = '.txt'
 " ###### END Vim Notes config
-
-" enable tern pluggin
-call tern#Enable()
 " ###### END Text editing configuration
+
 
