@@ -64,6 +64,8 @@ set foldmethod=syntax
 
 " set path to bash environment aliases
 let $BASH_ENV = "~/.bash_aliases"
+" set proper indentation for yaml files
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 "
 " ###### END General configuration settings
 
@@ -252,7 +254,7 @@ let g:airline_mode_map = {
 " ###### END Airline config
 
 " ###### GO conf
-let g:go_fmt_command = "gofmt"
+let g:go_fmt_command = "goimports"
 " let g:go_highlight_types = 1
 let g:go_highlight_fields = 0
 let g:go_highlight_functions = 0
