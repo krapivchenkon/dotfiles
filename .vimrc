@@ -117,10 +117,31 @@ Plug 'xolox/vim-notes'
 Plug 'xolox/vim-misc'
 " typescript syntax files
 Plug 'leafgarland/typescript-vim'
+" enable google language specific formatting plugin
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
+" Also add Glaive, which is used to configure codefmt's maktaba flags. See
+" `:help :Glaive` for usage.
+Plug 'google/vim-glaive'
+" ...
 " Initialize plugin system
 call plug#end()
 " ####### END Plugin configuration
 set pyxversion=0
+
+" install glaive vim library.
+call glaive#Install()
+augroup autoformat_settings
+  autocmd FileType bzl AutoFormatBuffer buildifier
+  autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+  autocmd FileType dart AutoFormatBuffer dartfmt
+  " autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType gn AutoFormatBuffer gn
+  autocmd FileType html,css,json AutoFormatBuffer js-beautify
+  autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType python AutoFormatBuffer yapf
+  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+augroup END
 
 " ###### Colorscheme setup start
 " current configuration is for deus colorscheme
@@ -308,10 +329,14 @@ else
     inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<C-k>"
 endif
 " ###### END GO conf
-autocmd FileType javascript noremap <C-]> :YcmCompleter GoTo<CR> 
-" Ctrl-o is already a part of YCM completer
-" autocmd FileType js noremap <C-o> :GoDefPop<CR> 
+
+" ###### Python conf
+autocmd BufWritePre *.py :FormatCode
+" ###### END Python conf
 " ###### JS conf
+autocmd FileType javascript noremap <C-]> :YcmCompleter GoTo<CR> 
+" autocmd FileType js noremap <C-o> :GoDefPop<CR> 
+" Ctrl-o is already a part of YCM completer
 "
 " ###### END JS conf
 " ###### SideSearch config
