@@ -123,6 +123,8 @@ Plug 'google/vim-codefmt'
 " Also add Glaive, which is used to configure codefmt's maktaba flags. See
 " `:help :Glaive` for usage.
 Plug 'google/vim-glaive'
+Plug 'davidhalter/jedi-vim'
+Plug 'tacahiroy/ctrlp-funky'
 " ...
 " Initialize plugin system
 call plug#end()
@@ -182,6 +184,8 @@ nnoremap <silent> <Leader>s :NERDTreeFind<CR>
 " for help type :help minibufexplorer.text
 " show list of all open buffers and switch to selected buffer by ids ID  
 nnoremap <Leader>b :ls<CR>:buffer<Space>
+" use CtrlP to list buffers and navigate beetween them using <C-j> or <C-k>
+nnoremap <C-b> :CtrlPBuffer<CR>
 " don't open minibuf explorer window by default
 let g:miniBufExplAutoStart = 0
 " map buffer navigation keys
@@ -332,6 +336,16 @@ endif
 
 " ###### Python conf
 autocmd BufWritePre *.py :FormatCode
+let g:jedi#goto_command = "<C-]>"
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>d"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>r"
+
+autocmd FileType python nnoremap <D-r> :CtrlPFunky<CR> 
+
 " ###### END Python conf
 " ###### JS conf
 autocmd FileType javascript noremap <C-]> :YcmCompleter GoTo<CR> 
