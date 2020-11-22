@@ -36,7 +36,7 @@ set completeopt=menuone
 " autosave when :w is executed
 set autowrite
 set visualbell
-set cursorline          " highlight current line
+" set cursorline          " highlight current line
 set wildmenu            " visual autocomplete for command menu
 set lazyredraw          " redraw only when we need to.
 set showmatch           " highlight matching [{()}]
@@ -108,7 +108,8 @@ Plug 'Valloric/YouCompleteMe'
 Plug 'tpope/vim-commentary'
 Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'digitalrounin/vim-yaml-folds'
-" disabled for performance in js files Plug 'vim-syntastic/syntastic'
+" disabled for performance in js files 
+" Plug 'vim-syntastic/syntastic'
 " js plugin
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
@@ -139,7 +140,8 @@ augroup autoformat_settings
   autocmd FileType dart AutoFormatBuffer dartfmt
   " autocmd FileType go AutoFormatBuffer gofmt
   autocmd FileType gn AutoFormatBuffer gn
-  autocmd FileType html,css,json AutoFormatBuffer js-beautify
+  autocmd FileType html,css AutoFormatBuffer js-beautify
+  " autocmd FileType json AutoFormatBuffer js-beautify
   autocmd FileType java AutoFormatBuffer google-java-format
   autocmd FileType python AutoFormatBuffer yapf
   " Alternative: autocmd FileType python AutoFormatBuffer autopep8
@@ -159,7 +161,7 @@ else
 endif  
 set background=dark " Setting dark mode
 colorscheme deus
-let g:airline_theme = "deus"
+let g:airline_theme = "onedark"
 " ###### END colorscheme setup 
 
 " ###### NERDTree configuration
@@ -280,16 +282,21 @@ let g:airline_mode_map = {
 
 " ###### GO conf
 let g:go_fmt_command = "goimports"
-" let g:go_highlight_types = 1
-let g:go_highlight_fields = 0
-let g:go_highlight_functions = 0
-let g:go_highlight_methods = 0
-let g:go_highlight_extra_types = 1
-let g:go_highlight_build_constraints = 1
+" let g:go_highlight_types = 0
+" let g:go_highlight_fields = 0
+" let g:go_highlight_functions = 0
+" let g:go_highlight_methods = 0
+" let g:go_highlight_extra_types = 0
+" let g:go_highlight_build_constraints = 0
+" let g:go_highlight_function_declarations = 0
+" let g:go_highlight_method_declarations = 0
+" let g:go_highlight_function_calls = 0
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
-let g:go_metalinter_enabled = ['golint', 'errcheck']
+" let g:go_metalinter_enabled = ['errcheck']
+let g:go_metalinter_enabled = []
 let g:go_fmt_fail_silently = 1
-let g:go_metalinter_autosave = 1
+" let g:go_metalinter_autosave = 1
+
 let g:go_metalinter_deadline = "2s"
 " GoDef:
 " place cursor on symbol and:
@@ -313,7 +320,7 @@ autocmd FileType go nmap <leader>r  <Plug>(go-run)
 let g:go_def_mode = 'godef'
 let g:go_decls_includes = "func,type"
 " enable autotype information in cmdline:
-let g:go_auto_type_info = 1
+let g:go_auto_type_info = 0
 set updatetime=800
 autocmd FileType go nmap <Leader>i <Plug>(go-info)
 " Highlight the same identifiers
@@ -335,7 +342,8 @@ endif
 " ###### END GO conf
 
 " ###### Python conf
-autocmd BufWritePre *.py :FormatCode
+" autocmd BufWritePre *.py :FormatCode
+let g:jedi#auto_vim_configuration = 0
 let g:jedi#goto_command = "<C-]>"
 let g:jedi#goto_assignments_command = "<leader>g"
 let g:jedi#goto_definitions_command = "<leader>d"
@@ -414,7 +422,7 @@ let vim_markdown_preview_browser='Safari'
 " 
 " ###### Syntastic config
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
